@@ -16,11 +16,13 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | Nestopia | NES, FDS | [libretro/nestopia](https://github.com/libretro/nestopia) | 2.0.0-beta | `/bin/nestopia` |
 | QuickNES | NES | [libretro/QuickNES_Core](https://github.com/libretro/QuickNES_Core) | 1.0-WIP-beta | `/bin/quicknes` |
 | SMS Plus GX | Master System, Game Gear | [libretro/smsplus-gx](https://github.com/libretro/smsplus-gx) | 1.8-beta | `/bin/smsplus` |
-| Genesis Plus GX | Mega Drive, Sega CD, Master System, Game Gear | [libretro/Genesis-Plus-GX](https://github.com/libretro/Genesis-Plus-GX) | v1.7.4-beta | `/bin/genesis` |
-| Genesis Plus GX EX | the same, plus Paprium | [DefKorns/Genesis-Plus-GX-EX](https://github.com/DefKorns/Genesis-Plus-GX-EX) (branch `snesce`) | v1.7.4-beta | `/bin/genesis_ex` |
-| Genesis Plus GX Wide | the same, widescreen | [libretro/Genesis-Plus-GX-Wide](https://github.com/libretro/Genesis-Plus-GX-Wide) | v1.7.4-beta | `/bin/genesis_wide` |
+| Genesis Plus GX | Mega Drive, Sega CD, Master System, Game Gear | [libretro/Genesis-Plus-GX](https://github.com/libretro/Genesis-Plus-GX) | v1.7.4-beta | `/bin/genesis-plus-gx` |
+| Genesis Plus GX EX | the same, plus Paprium | [DefKorns/Genesis-Plus-GX-EX](https://github.com/DefKorns/Genesis-Plus-GX-EX) (branch `snesce`) | v1.7.4-beta | `/bin/genesis_plus_gx_ex` |
+| Genesis Plus GX Wide | the same, widescreen | [libretro/Genesis-Plus-GX-Wide](https://github.com/libretro/Genesis-Plus-GX-Wide) | v1.7.4-beta | `/bin/genesis_plus_gx_wide` |
 | PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
-| PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx` |
+| PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed` |
+
+The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Drive game, `/bin/m2engage`, runs `/bin/genesis-plus-gx` when the console has no native emulator, and the core picker of a game lists a core as `/bin/<core name>` (`snes05` and `snes10` for the two Snes9x).
 
 Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
 
