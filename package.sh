@@ -24,9 +24,10 @@ rm -rf "$mods"
 mkdir -p "$mods"
 : > "$root/out/mods.list"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut title; do
+grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
+  version=$(echo "$version" | tr -d ' ')
   title=$(echo "$title" | sed 's/^ *//;s/ *$//')
   [ -n "$name" ] || continue
 
@@ -43,5 +44,6 @@ The $title libretro core for the RetroArch (S)NESCE hmod, which has to be instal
 Use it from a game's command line as \`/bin/$shortcut\`, or add \`--retroarch --core $name\`.
 EOT
   echo "$title" > "$mods/$name.title"
+  echo "$version" > "$mods/$name.version"
   echo "$name" >> "$root/out/mods.list"
 done

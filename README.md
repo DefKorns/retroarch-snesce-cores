@@ -51,9 +51,10 @@ Both run in the [classicmini-cross-toolchain](https://github.com/DefKorns/classi
 Add a line to `cores.txt`:
 
 ```text
-name | repository | commit | build dir | extra make args | shortcut | title
+name | repository | commit | build dir | extra make args | shortcut | hmod version | title
 ```
 
+- `hmod version` is the version of the core itself (its libretro `display_version`) with `-beta` while the builds are for testing; a core without a version number uses the date.
 - `build dir` is the folder holding the core's Makefile (`.` for the root).
 - `extra make args` is passed to `make`, for example `LIBS='-lpthread -lm'`.
 - The core's Makefile needs a `classic_armv7_a7` platform.

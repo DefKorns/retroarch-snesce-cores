@@ -1,6 +1,6 @@
-# name | repository | commit | build dir | extra make args | shortcut | title
-snes9x2005 | https://github.com/libretro/snes9x2005 | a79dfe9047e7fec58808aefe48ad2bf499c7af11 | . | | snes05 | Snes9x 2005 (SNES)
-snes9x2010 | https://github.com/libretro/snes9x2010 | fe690dd321fa5a46b5234a2bde089d2518c62b0e | . | LIBS='-lpthread -lm' | snes10 | Snes9x 2010 (SNES)
-fceumm | https://github.com/libretro/libretro-fceumm | ac0d00a7fc01166f84c7bac01d1084ebfd2b865e | . | | fceumm | FCEUmm (NES)
-nestopia | https://github.com/libretro/nestopia | 2110d21b7174455ec98948bb474147dea0e3cad0 | libretro | | nestopia | Nestopia (NES, FDS)
-quicknes | https://github.com/libretro/QuickNES_Core | 26bb785c9deddb66a17717b21bb4e328f03ade32 | . | | quicknes | QuickNES (NES)
+# name | repository | commit | build dir | extra make args | shortcut | hmod version | title
+snes9x2005 | https://github.com/libretro/snes9x2005 | a79dfe9047e7fec58808aefe48ad2bf499c7af11 | . | | snes05 | 1.36-beta | Snes9x 2005 (SNES)
+snes9x2010 | https://github.com/libretro/snes9x2010 | fe690dd321fa5a46b5234a2bde089d2518c62b0e | . | LIBS='-lpthread -lm' | snes10 | 1.52.4-beta | Snes9x 2010 (SNES)
+fceumm | https://github.com/libretro/libretro-fceumm | ac0d00a7fc01166f84c7bac01d1084ebfd2b865e | . | | fceumm | 2026.10.30-beta | FCEUmm (NES)
+nestopia | https://github.com/libretro/nestopia | 2110d21b7174455ec98948bb474147dea0e3cad0 | libretro | | nestopia | 2.0.0-beta | Nestopia (NES, FDS)
+quicknes | https://github.com/libretro/QuickNES_Core | 26bb785c9deddb66a17717b21bb4e328f03ade32 | . | | quicknes | 1.0-WIP-beta | QuickNES (NES)

@@ -10,7 +10,7 @@ out/.built: cores.txt build.sh
 hmods: out/.built
 	sh package.sh
 	for name in $$(cat out/mods.list); do \
-	  $(MAKE) hmod MOD_ID=$(CORE_ID)$$name MOD_NAME="RetroArch Core - $$(cat out/mods/$$name.title)" \
+	  $(MAKE) hmod MOD_ID=$(CORE_ID)$$name MOD_VER=$$(cat out/mods/$$name.version) MOD_NAME="RetroArch Core - $$(cat out/mods/$$name.title)" \
 	    MOD_DIR=out/mods/$$name || exit 1; \
 	done
 
