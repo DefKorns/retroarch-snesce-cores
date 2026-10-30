@@ -21,8 +21,6 @@
 set -eu
 
 cross="${CROSS_PREFIX:-arm-linux-gnueabihf-}"
-# PicoDrive generates its Cyclone core by running a binary built for the console under qemu
-export QEMU_LD_PREFIX="${QEMU_LD_PREFIX:-/opt/toolchain/arm-cortex_a7-linux-gnueabihf/sysroot}"
 info_ref=445421549abc0638a2f5ecf05db8437e580dcc69
 root=$(pwd)
 out="$root/out"

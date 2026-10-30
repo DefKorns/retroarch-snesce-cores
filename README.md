@@ -19,7 +19,6 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | Genesis Plus GX | Mega Drive, Sega CD, Master System, Game Gear | [libretro/Genesis-Plus-GX](https://github.com/libretro/Genesis-Plus-GX) | v1.7.4-beta | `/bin/genesis` |
 | Genesis Plus GX EX | the same, plus Paprium | [DefKorns/Genesis-Plus-GX-EX](https://github.com/DefKorns/Genesis-Plus-GX-EX) (branch `snesce`) | v1.7.4-beta | `/bin/genesis_ex` |
 | Genesis Plus GX Wide | the same, widescreen | [libretro/Genesis-Plus-GX-Wide](https://github.com/libretro/Genesis-Plus-GX-Wide) | v1.7.4-beta | `/bin/genesis_wide` |
-| PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
 | PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx` |
 
 Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
@@ -37,7 +36,6 @@ Only the Famicom Disk System (`.fds`) games, Sega CD and PlayStation need a BIOS
 | QuickNES | none | | plays `.nes` only, no FDS |
 | SMS Plus GX | `bios.sms` | optional | Master System BIOS |
 | Genesis Plus GX, EX and Wide | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | `bios_MD.bin`, `bios_E.sms`, `bios_U.sms`, `bios_J.sms` and `bios.gg` are optional |
-| PicoDrive | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | same names as Genesis Plus GX |
 | PCSX ReARMed | `scph5500.bin`, `scph5501.bin`, `scph5502.bin` | recommended | JP, US and EU; without one the core falls back to a software BIOS with lower compatibility |
 
 The RetroArch (S)NESCE hmod copies the console's own `fds_bios.bin` to `disksys.rom` when it installs, on consoles that have it. Elsewhere, add the file yourself; this repository does not ship any BIOS.
