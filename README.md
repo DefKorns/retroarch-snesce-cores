@@ -22,7 +22,7 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
 | PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed` |
 
-The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Drive game, `/bin/m2engage`, runs `/bin/genesis-plus-gx` when the console has no native emulator, and the core picker of a game lists a core as `/bin/<core name>` (`snes05` and `snes10` for the two Snes9x).
+The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Drive game, `/bin/m2engage`, runs `/bin/genesis-plus-gx` when the console has no native emulator, and the core picker of a game lists a core as `/bin/<core name>` (`snes05` and `snes10` for the two Snes9x). The Genesis Plus GX hmod also answers to `/bin/sms`, `/bin/md`, `/bin/gg` and `/bin/segacd`, and the PicoDrive one to `/bin/32x`: the names Hakchi gives the Master System, Mega Drive, Game Gear and 32X games, so the ones added before keep starting.
 
 Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
 
@@ -92,10 +92,11 @@ Both run in the [classicmini-cross-toolchain](https://github.com/DefKorns/classi
 Add a line to `cores.txt`:
 
 ```text
-name | repository | commit | build dir | extra make args | shortcut | hmod version | title | systems
+name | repository | commit | build dir | extra make args | shortcut | hmod version | title | systems | aliases
 ```
 
 - `title` is the name of the core in the hakchi module list, which cuts a name after about 40 characters, counting the prefix "RetroArch Core - " that the Makefile adds; `systems` goes into the readme header as `Emulated System:`, which the client uses to group the list.
+- `aliases` (optional) are more `/bin` names for the same core, for the ones Hakchi gives to the systems it plays by default; only one core should list a name.
 - `hmod version` is the version of the core itself (its libretro `display_version`) with `-beta` while the builds are for testing; a core without a version number uses the date.
 - `build dir` is the folder holding the core's Makefile (`.` for the root).
 - `extra make args` is passed to `make`, for example `LIBS='-lpthread -lm'`.
