@@ -1,0 +1,3 @@
+extends: ../.markdownlint.yaml
+# These files are pasted after the readme body of an hmod, so they start at level 2.
+MD041: false

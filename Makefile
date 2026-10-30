@@ -1,4 +1,4 @@
-MOD_CATEGORY := Emulators
+MOD_CATEGORY := RetroArch
 CORE_ID      := retroarch_snesce_core_
 
 all: hmods

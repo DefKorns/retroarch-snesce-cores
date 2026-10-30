@@ -36,13 +36,24 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   cp "$root/out/cores/${name}_libretro.so" "$dir/etc/libretro/core/"
   cp "$root/out/info/${name}_libretro.info" "$dir/etc/libretro/info/"
   printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
-  cat > "$dir/readme.md" <<EOT
-# $title
-
-The $title libretro core for the RetroArch (S)NESCE hmod, which has to be installed too.
-
-Use it from a game's command line as \`/bin/$shortcut\`, or add \`--retroarch --core $name\`.
-EOT
+  info="$dir/etc/libretro/info/${name}_libretro.info"
+  authors=$(sed -n 's/^authors = "\(.*\)"/\1/p' "$info")
+  system=$(sed -n 's/^systemname = "\(.*\)"/\1/p' "$info")
+  bios=$(sed -n 's/^firmware[0-9]*_desc = "\(.*\)"/\1/p' "$info" | paste -sd, - | sed 's/,/, /g')
+  {
+    echo "Core by: $authors|Libretro"
+    echo "Emulated System: $system"
+    echo "Command Line: /bin/$shortcut"
+    [ -z "$bios" ] || echo "Prerequisite BIOS: $bios"
+    echo
+    echo "The $title libretro core for the RetroArch (S)NESCE hmod, which has to be installed too."
+    echo
+    echo "Use it from a game's command line as \`/bin/$shortcut\`, or add \`--retroarch --core $name\`."
+    if [ -f "$root/readme/$name.md" ]; then
+      echo
+      cat "$root/readme/$name.md"
+    fi
+  } > "$dir/readme.md"
   echo "$title" > "$mods/$name.title"
   echo "$version" > "$mods/$name.version"
   echo "$name" >> "$root/out/mods.list"

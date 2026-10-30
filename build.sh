@@ -21,6 +21,8 @@
 set -eu
 
 cross="${CROSS_PREFIX:-arm-linux-gnueabihf-}"
+# PicoDrive generates its Cyclone core by running a binary built for the console under qemu
+export QEMU_LD_PREFIX="${QEMU_LD_PREFIX:-/opt/toolchain/arm-cortex_a7-linux-gnueabihf/sysroot}"
 info_ref=445421549abc0638a2f5ecf05db8437e580dcc69
 root=$(pwd)
 out="$root/out"
@@ -42,6 +44,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _; do
   git init -q "$src/$name"
   git -C "$src/$name" fetch -q --depth 1 "$repo" "$commit"
   git -C "$src/$name" checkout -q FETCH_HEAD
+  git -C "$src/$name" submodule update -q --init
 
   (cd "$src/$name/$dir" && eval "make -j$(nproc) platform=classic_armv7_a7 \
     CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra")
@@ -54,7 +57,11 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _; do
   crc=$(gzip -c "$so" | tail -c 8 | od -An -tx4 -N4 | tr -d ' ')
   echo "$date_stamp $crc ${name}_libretro.so.zip" >> "$out/.index-extended"
 
-  curl -fsSL "https://raw.githubusercontent.com/libretro/libretro-core-info/$info_ref/${name}_libretro.info" \
-    -o "$out/info/${name}_libretro.info"
+  if [ -f "$root/info/${name}_libretro.info" ]; then
+    cp "$root/info/${name}_libretro.info" "$out/info/"
+  else
+    curl -fsSL "https://raw.githubusercontent.com/libretro/libretro-core-info/$info_ref/${name}_libretro.info" \
+      -o "$out/info/${name}_libretro.info"
+  fi
 done
 cat "$out/.index-extended"
