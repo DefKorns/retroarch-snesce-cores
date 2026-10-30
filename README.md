@@ -87,6 +87,16 @@ sh vendor/hmod-build/docker-make.sh hmods             # one hmod per core, in ou
 
 Both run in the [classicmini-cross-toolchain](https://github.com/DefKorns/classicmini-cross-toolchain) image. `TOOLCHAIN_IMAGE` overrides the image.
 
+## Asking for help
+
+These are not the cores KMFDManic's hmods carry, and they are built without his tweaks, so advice for his cores may not fit them. When you ask for help, say:
+
+- the console and the core you use, from the **RetroArch** tab of this Mod Hub;
+- the version of the core hmod and of RetroArch (S)NESCE, listed in hakchi under **Modules → Uninstall extra modules**;
+- the game, and the other mods you have installed (**Modules → Generate modules report**).
+
+For a bug, [open an issue](https://github.com/DefKorns/retroarch-snesce-cores/issues/new/choose): the form asks for exactly that.
+
 ## Add a core
 
 Add a line to `cores.txt`:

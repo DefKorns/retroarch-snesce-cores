@@ -1,0 +1,85 @@
+name: Bug report
+description: A core or RetroArch (S)NESCE doesn't work as it should
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. These cores are not KMFDManic's: if you use his cores or his RetroArch, ask him instead. The more of the fields below you fill in, the faster it can be fixed.
+  - type: dropdown
+    id: console
+    attributes:
+      label: Console
+      options:
+        - SNES Classic (USA)
+        - SNES Classic (EUR)
+        - Super Famicom Classic
+        - NES Classic
+        - Famicom Classic
+        - Famicom Shonen Jump
+    validations:
+      required: true
+  - type: dropdown
+    id: core
+    attributes:
+      label: Core
+      options:
+        - Snes9x 2005
+        - Snes9x 2010
+        - FCEUmm
+        - Nestopia
+        - QuickNES
+        - SMS Plus GX
+        - Genesis Plus GX
+        - Genesis Plus GX EX
+        - Genesis Plus GX Wide
+        - PicoDrive
+        - PCSX ReARMed
+        - Another one
+    validations:
+      required: true
+  - type: input
+    id: core-version
+    attributes:
+      label: Core hmod version
+      description: In hakchi, **Modules → Uninstall extra modules** lists the installed version, for example `v1.7.4-beta`.
+      placeholder: e.g. v1.7.4-beta
+    validations:
+      required: true
+  - type: input
+    id: ra-version
+    attributes:
+      label: RetroArch (S)NESCE version
+      description: Listed next to the module in the same place. Say it even if you think it doesn't matter.
+      placeholder: e.g. 1.22.2-beta.6
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Game and system
+      description: The name of the game, and whether it fails for others too.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+  - type: textarea
+    id: mods
+    attributes:
+      label: Other mods installed
+      description: In hakchi, **Modules → Generate modules report**, then paste it here or attach the file.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Attach any logs, or a photo or screenshot of the problem, by dragging them here.

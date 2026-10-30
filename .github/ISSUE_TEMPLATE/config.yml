@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: RetroArch (S)NESCE
+    url: https://github.com/DefKorns/RetroArch-S-NESCE/issues
+    about: Problems with RetroArch itself, the launchers or the hakchi games, not one core.
