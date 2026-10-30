@@ -43,6 +43,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _; do
   git -C "$src/$name" fetch -q --depth 1 "$repo" "$commit"
   git -C "$src/$name" checkout -q FETCH_HEAD
   git -C "$src/$name" submodule update -q --init
+  [ ! -f "$root/hooks/$name.sh" ] || (cd "$src/$name" && sh "$root/hooks/$name.sh")
 
   (cd "$src/$name/$dir" && eval "make -j$(nproc) platform=classic_armv7_a7 \
     CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra")
