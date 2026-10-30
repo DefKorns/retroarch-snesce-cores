@@ -15,7 +15,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Builds every core in cores.txt for the NES/SNES Classic and writes the
-# updater tree to out/: <core>_libretro.so.zip, .index-extended and info/.
+# updater tree to out/: <core>_libretro.so.zip, .index-extended and info/,
+# plus the bare cores in out/cores/ for the hmods.
 # Runs inside the classicmini-cross-toolchain image (see docker-build.sh).
 set -eu
 
@@ -27,24 +28,26 @@ src="$root/out-src"
 date_stamp=$(date -u +%Y-%m-%d)
 
 rm -rf "$out" "$src"
-mkdir -p "$out/info" "$src"
+mkdir -p "$out/info" "$out/cores" "$src"
 : > "$out/.index-extended"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir; do
+grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _; do
   name=$(echo "$name" | tr -d ' ')
   repo=$(echo "$repo" | tr -d ' ')
   commit=$(echo "$commit" | tr -d ' ')
   dir=$(echo "$dir" | tr -d ' ')
+  extra=$(echo "$extra" | sed 's/^ *//;s/ *$//')
   [ -n "$name" ] || continue
 
   git init -q "$src/$name"
   git -C "$src/$name" fetch -q --depth 1 "$repo" "$commit"
   git -C "$src/$name" checkout -q FETCH_HEAD
 
-  (cd "$src/$name/$dir" && make -j"$(nproc)" platform=classic_armv7_a7 \
-    CC="${cross}gcc" CXX="${cross}g++" AR="${cross}ar")
+  (cd "$src/$name/$dir" && eval "make -j$(nproc) platform=classic_armv7_a7 \
+    CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra")
   so="$src/$name/$dir/${name}_libretro.so"
   "${cross}strip" "$so"
+  cp "$so" "$out/cores/"
 
   perl -MIO::Compress::Zip=zip,'$ZipError' -e 'zip($ARGV[0] => $ARGV[1], Name => $ARGV[2]) or die $ZipError' \
     "$so" "$out/${name}_libretro.so.zip" "${name}_libretro.so"
