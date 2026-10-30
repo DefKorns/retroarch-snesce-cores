@@ -8,21 +8,35 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 
 ## Cores
 
-| Core | System | Source | Shortcut |
-| --- | --- | --- | --- |
-| Snes9x 2005 | SNES | [libretro/snes9x2005](https://github.com/libretro/snes9x2005) | `/bin/snes05` |
-| Snes9x 2010 | SNES | [libretro/snes9x2010](https://github.com/libretro/snes9x2010) | `/bin/snes10` |
-| FCEUmm | NES, FDS | [libretro/libretro-fceumm](https://github.com/libretro/libretro-fceumm) | `/bin/fceumm` |
-| Nestopia | NES, FDS | [libretro/nestopia](https://github.com/libretro/nestopia) | `/bin/nestopia` |
-| QuickNES | NES | [libretro/QuickNES_Core](https://github.com/libretro/QuickNES_Core) | `/bin/quicknes` |
+| Core | System | Source | Version | Shortcut |
+| --- | --- | --- | --- | --- |
+| Snes9x 2005 | SNES | [libretro/snes9x2005](https://github.com/libretro/snes9x2005) | 1.36-beta | `/bin/snes05` |
+| Snes9x 2010 | SNES | [libretro/snes9x2010](https://github.com/libretro/snes9x2010) | 1.52.4-beta | `/bin/snes10` |
+| FCEUmm | NES, FDS | [libretro/libretro-fceumm](https://github.com/libretro/libretro-fceumm) | 2026.10.30-beta | `/bin/fceumm` |
+| Nestopia | NES, FDS | [libretro/nestopia](https://github.com/libretro/nestopia) | 2.0.0-beta | `/bin/nestopia` |
+| QuickNES | NES | [libretro/QuickNES_Core](https://github.com/libretro/QuickNES_Core) | 1.0-WIP-beta | `/bin/quicknes` |
 
-The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
+Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
+
+## BIOS
+
+Only the Famicom Disk System (`.fds`) games need a BIOS. Put it in `/etc/libretro/system`.
+
+| Core | BIOS | Required | Notes |
+| --- | --- | --- | --- |
+| Snes9x 2005 | none | | |
+| Snes9x 2010 | none | | |
+| FCEUmm | `disksys.rom` | for `.fds` | md5 `ca30b50f880eb660a320674ed365ef7a`. `nes.pal` (custom palette) and `gamegenie.nes` are optional |
+| Nestopia | `disksys.rom` | for `.fds` | same file as FCEUmm; L switches the disk side |
+| QuickNES | none | | plays `.nes` only, no FDS |
+
+The RetroArch (S)NESCE hmod copies the console's own `fds_bios.bin` to `disksys.rom` when it installs, on consoles that have it. Elsewhere, add the file yourself; this repository does not ship any BIOS.
 
 ## Install
 
 You need the [RetroArch (S)NESCE](https://github.com/DefKorns/RetroArch-S-NESCE) hmod first.
 
-Download `retroarch_snesce_core_<core>.hmod` from the [releases](https://github.com/DefKorns/retroarch-snesce-cores/releases) and install it with Hakchi. Each hmod holds the core, its info file and the shortcut a Hakchi game can use as its executable. Instead of the shortcut, a game can also use `--retroarch --core <core>` in its command line.
+Download `retroarch_snesce_core_<core>.hmod` (one for each core in the table) from the [releases](https://github.com/DefKorns/retroarch-snesce-cores/releases) and install it with Hakchi. Each hmod holds the core, its info file and the shortcut a Hakchi game can use as its executable. Instead of the shortcut, a game can also use `--retroarch --core <core>` in its command line.
 
 ## Online updater
 
@@ -62,7 +76,7 @@ name | repository | commit | build dir | extra make args | shortcut | hmod versi
 
 ## Releases
 
-A tag `v*` builds the hmods and publishes them as a release, through the shared workflow of [hmod-build](https://github.com/DefKorns/hmod-build). The tag is the version of every hmod in that release.
+A tag `v*` builds the hmods and publishes them as a release, through the shared workflow of [hmod-build](https://github.com/DefKorns/hmod-build). The tag only names the release: each hmod keeps the version of its core, from `cores.txt`. The tag matches the version of the [RetroArch (S)NESCE](https://github.com/DefKorns/RetroArch-S-NESCE) hmod the cores were tested with (`v1.22.2-beta`).
 
 ## Contributing
 
