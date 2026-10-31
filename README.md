@@ -73,7 +73,21 @@ Every push to `master` publishes an updater tree to <https://defkorns.github.io/
 - `<core>_libretro.so.zip`
 - `info/<core>_libretro.info`
 
-It is not usable from the console yet: GitHub Pages only serves HTTPS, and the RetroArch (S)NESCE build has no TLS. For now, install the hmods.
+The RetroArch (S)NESCE build has TLS, so the console can download the cores from this address. Set `core_updater_buildbot_cores_url` and `core_updater_buildbot_assets_url` to it.
+
+The online updater entries that read the assets URL download these zips from `frontend/`, cut down to what the console uses:
+
+| Entry | Zip | Contents |
+| --- | --- | --- |
+| Update Assets | `assets.zip` | Ozone, the XMB `monochrome` theme and the sounds, with only the system icons of the supported cores |
+| Update GLSL Shaders | `shaders_glsl.zip` | The presets that take 10 ms or less per frame at 1280x720 on the Mali-400 |
+| Update Cheats | `cheats.zip` | The cheat databases of the supported systems, without Nintendo DS |
+| Update Core Info Files | `info.zip` | The info files of these cores |
+| Update Databases | `database-rdb.zip` | The databases of the supported systems |
+
+The other entries (overlays, controller profiles, thumbnails) have no zip here and fail.
+
+`sh frontend/build.sh` builds them, from the upstream commits pinned in `frontend/sources.txt`, and writes `assets.tar.gz` with the same files as `assets.zip`, and `assets.tar.sha256` with the checksum of its tar, for the build of the RetroArch (S)NESCE hmod. `systems.txt` lists the supported systems, `aliases.txt` the names some cores use for a system that has another name upstream (they get a copy of its icon and cheats), and `shaders.txt` the presets that make the cut. The database zip is the buildbot's, filtered, so it is not pinned to a commit.
 
 ## Build
 

@@ -1,0 +1,5 @@
+# name | repository | commit | sparse paths
+assets | https://github.com/libretro/retroarch-assets | d9f969054dc7fbb6fa89519036d2b971e0855b51 | ozone xmb/monochrome sounds
+shaders | https://github.com/libretro/glsl-shaders | cba01a48b0974a1232bea68d999a7c21bc4c233e |
+database | https://github.com/libretro/libretro-database | 2c93952f3cdf02837d2b34112aea5ee844d42b8b | cht
+core-info | https://github.com/libretro/libretro-core-info | 445421549abc0638a2f5ecf05db8437e580dcc69 |
