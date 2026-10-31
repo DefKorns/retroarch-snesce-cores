@@ -22,7 +22,9 @@ jobs:
       - name: Build the cores
         run: sh docker-build.sh
       - name: Build the updater zips
-        run: sh frontend/build.sh
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" out out-src
+          sh frontend/build.sh
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
