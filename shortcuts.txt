@@ -1,0 +1,2 @@
+# name | cores that answer it, in the order they are tried
+snes9x snes9x2010 snes9x2005

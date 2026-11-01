@@ -24,6 +24,30 @@ rm -rf "$mods"
 mkdir -p "$mods"
 : > "$root/out/mods.list"
 
+# the script of a /bin name: the first of its cores that is installed answers
+shortcutScript() {
+  local reversed="" core
+  echo '#!/bin/sh'
+  if [ $# -eq 1 ]; then
+    echo "exec retroarch-clover $1 \"\$@\""
+    return
+  fi
+  for core in "$@"; do
+    reversed="$core $reversed"
+  done
+  # shellcheck disable=SC2086
+  set -- $reversed
+  echo "core=$1"
+  shift
+  for core in "$@"; do
+    echo "[ -f /etc/libretro/core/${core}_libretro.so ] && core=$core"
+  done
+  # shellcheck disable=SC2016
+  echo 'exec retroarch-clover "$core" "$@"'
+}
+
+sh "$root/shortcuts.sh" "$root/out/shortcuts.list"
+
 grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
@@ -40,11 +64,8 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
   # the names Hakchi gives the systems a core plays by default
   for alias in $aliases; do
-    if [ -f "$root/shortcuts/$alias" ]; then
-      cp "$root/shortcuts/$alias" "$dir/bin/$alias"
-    else
-      cp "$dir/bin/$shortcut" "$dir/bin/$alias"
-    fi
+    # shellcheck disable=SC2046
+    shortcutScript $(sed -n "s/^$alias //p" "$root/out/shortcuts.list") > "$dir/bin/$alias"
   done
   info="$dir/etc/libretro/info/${name}_libretro.info"
   authors=$(sed -n 's/^authors = "\(.*\)"/\1/p' "$info")

@@ -46,3 +46,4 @@ grep -v '^#' frontend/sources.txt | while IFS='|' read -r name repo commit paths
 done
 
 python3 frontend/zips.py "$src" "$out"
+sh "$root/shortcuts.sh" "$out/shortcuts.list"
