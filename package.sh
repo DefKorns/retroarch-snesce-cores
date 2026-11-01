@@ -40,7 +40,11 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
   # the names Hakchi gives the systems a core plays by default
   for alias in $aliases; do
-    cp "$dir/bin/$shortcut" "$dir/bin/$alias"
+    if [ -f "$root/shortcuts/$alias" ]; then
+      cp "$root/shortcuts/$alias" "$dir/bin/$alias"
+    else
+      cp "$dir/bin/$shortcut" "$dir/bin/$alias"
+    fi
   done
   info="$dir/etc/libretro/info/${name}_libretro.info"
   authors=$(sed -n 's/^authors = "\(.*\)"/\1/p' "$info")

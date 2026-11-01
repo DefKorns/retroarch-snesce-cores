@@ -120,7 +120,7 @@ name | repository | commit | build dir | extra make args | shortcut | hmod versi
 ```
 
 - `title` is the name of the core in the hakchi module list, which cuts a name after about 40 characters, counting the prefix "RetroArch Core - " that the Makefile adds; `systems` goes into the readme header as `Emulated System:`, which the client uses to group the list.
-- `aliases` (optional) are more `/bin` names for the same core, for the ones Hakchi gives to the systems it plays by default; only one core should list a name.
+- `aliases` (optional) are more `/bin` names for the same core, for the ones Hakchi gives to the systems it plays by default; only one core should list a name, unless `shortcuts/<name>` exists: that script is shipped by every core listing the name.
 - `hmod version` is the version of the core itself (its libretro `display_version`) with `-beta` while the builds are for testing; a core without a version number uses the date.
 - `build dir` is the folder holding the core's Makefile (`.` for the root).
 - `extra make args` is passed to `make`, for example `LIBS='-lpthread -lm'`.
