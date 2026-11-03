@@ -21,7 +21,7 @@ set -eu
 
 out="$1"
 pairs=$(mktemp)
-grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut _ _ _ aliases; do
+grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut _ _ _ aliases _; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
   [ -n "$name" ] || continue

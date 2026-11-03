@@ -48,7 +48,7 @@ shortcutScript() {
 
 sh "$root/shortcuts.sh" "$root/out/shortcuts.list"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases; do
+grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases _; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
   version=$(echo "$version" | tr -d ' ')

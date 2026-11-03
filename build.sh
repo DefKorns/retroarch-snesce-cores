@@ -17,7 +17,9 @@
 # Builds every core in cores.txt for the NES/SNES Classic and writes the
 # updater tree to out/: <core>_libretro.so.zip, .index-extended and info/,
 # plus the bare cores in out/cores/ for the hmods.
-# Runs inside the classicmini-cross-toolchain image (see docker-build.sh).
+# Runs inside the classicmini-cross-toolchain image (see docker-build.sh). The
+# cores whose last column names another toolchain are built with TOOLCHAIN=<name>,
+# on top of the tree of the first run.
 set -eu
 
 cross="${CROSS_PREFIX:-arm-linux-gnueabihf-}"
@@ -27,26 +29,43 @@ out="$root/out"
 src="$root/out-src"
 date_stamp=$(date -u +%Y-%m-%d)
 
-rm -rf "$out" "$src"
-mkdir -p "$out/info" "$out/cores" "$src"
-: > "$out/.index-extended"
+toolchain="${TOOLCHAIN:-default}"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _; do
+if [ "$toolchain" = default ]; then
+  rm -rf "$out" "$src"
+  mkdir -p "$out"
+  : > "$out/.index-extended"
+fi
+mkdir -p "$out/info" "$out/cores" "$src"
+
+grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ _ _ core_toolchain; do
   name=$(echo "$name" | tr -d ' ')
   repo=$(echo "$repo" | tr -d ' ')
   commit=$(echo "$commit" | tr -d ' ')
   dir=$(echo "$dir" | tr -d ' ')
   extra=$(echo "$extra" | sed 's/^ *//;s/ *$//')
+  core_toolchain=$(echo "$core_toolchain" | tr -d ' ')
   [ -n "$name" ] || continue
+  [ "${core_toolchain:-default}" = "$toolchain" ] || continue
 
   git init -q "$src/$name"
   git -C "$src/$name" fetch -q --depth 1 "$repo" "$commit"
   git -C "$src/$name" checkout -q FETCH_HEAD
-  git -C "$src/$name" submodule update -q --init
+  if [ -f "$root/hooks/$name.submodules" ]; then
+    # shellcheck disable=SC2046
+    git -C "$src/$name" submodule update -q --init -- $(cat "$root/hooks/$name.submodules")
+  else
+    git -C "$src/$name" submodule update -q --init
+  fi
   [ ! -f "$root/hooks/$name.sh" ] || (cd "$src/$name" && sh "$root/hooks/$name.sh")
 
-  (cd "$src/$name/$dir" && eval "make -j$(nproc) platform=classic_armv7_a7 \
-    CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra")
+  (
+    cd "$src/$name/$dir"
+    # shellcheck disable=SC1090
+    [ ! -f "$root/hooks/$name.env" ] || . "$root/hooks/$name.env"
+    eval "make -j$(nproc) platform=classic_armv7_a7 \
+      CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra"
+  )
   so="$src/$name/$dir/${name}_libretro.so"
   "${cross}strip" "$so"
   cp "$so" "$out/cores/"

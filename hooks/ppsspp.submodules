@@ -1,0 +1,15 @@
+ext/aemu_postoffice
+ext/armips
+ext/cpu_features
+ext/freetype
+ext/glslang
+ext/libchdr
+ext/lua
+ext/miniupnp
+ext/nanosvg
+ext/OpenXR-SDK
+ext/rapidjson
+ext/rcheevos
+ext/SPIRV-Cross
+ext/zstd
+libretro/libretro-common

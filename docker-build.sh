@@ -14,8 +14,13 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Runs build.sh in the toolchain image. TOOLCHAIN_IMAGE overrides the image.
+# Runs build.sh in the toolchain image, then again in the GCC 13 image for the
+# cores that name it in cores.txt. TOOLCHAIN_IMAGE and GCC13_IMAGE override the images.
 set -eu
 export MSYS_NO_PATHCONV=1
 image=${TOOLCHAIN_IMAGE:-ghcr.io/defkorns/classicmini-cross-toolchain:v1.3.0}
+gcc13_image=${GCC13_IMAGE:-ghcr.io/defkorns/classicmini-gcc13:gcc13}
 docker run --rm -v "$PWD:/w" -w /w "$image" sh build.sh
+if grep -v '^#' cores.txt | grep -q '| *gcc13 *$'; then
+  docker run --rm -e TOOLCHAIN=gcc13 -v "$PWD:/w" -w /w "$gcc13_image" sh build.sh
+fi
