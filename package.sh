@@ -48,19 +48,22 @@ shortcutScript() {
 
 sh "$root/shortcuts.sh" "$root/out/shortcuts.list"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases _; do
+grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases _ image; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
   version=$(echo "$version" | tr -d ' ')
   title=$(echo "$title" | sed 's/^ *//;s/ *$//')
   systems=$(echo "$systems" | sed 's/^ *//;s/ *$//')
   aliases=$(echo "$aliases" | sed 's/^ *//;s/ *$//')
+  image=$(echo "$image" | tr -d ' ')
+  image="${image:-$name}"
   [ -n "$name" ] || continue
 
   dir="$mods/$name"
   mkdir -p "$dir/bin" "$dir/etc/libretro/core" "$dir/etc/libretro/info"
   cp "$root/out/cores/${name}_libretro.so" "$dir/etc/libretro/core/"
   cp "$root/out/info/${name}_libretro.info" "$dir/etc/libretro/info/"
+  [ ! -d "$root/mods/$name" ] || cp -r "$root/mods/$name/." "$dir/"
   printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
   # the names Hakchi gives the systems a core plays by default
   for alias in $aliases; do
@@ -71,7 +74,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   authors=$(sed -n 's/^authors = "\(.*\)"/\1/p' "$info")
   bios=$(sed -n 's/^firmware[0-9]*_desc = "\(.*\)"/\1/p' "$info" | paste -sd, - | sed 's/,/, /g')
   {
-    echo "![$title](https://raw.githubusercontent.com/DefKorns/retroarch-snesce-cores/master/images/$name.png)"
+    echo "![$title](https://raw.githubusercontent.com/DefKorns/retroarch-snesce-cores/master/images/$image.png)"
     echo
     echo "**Command Line:** /bin/$shortcut"
     [ -z "$aliases" ] || { echo; echo "**Legacy names:** /bin/$(echo "$aliases" | sed 's# #, /bin/#g')"; }

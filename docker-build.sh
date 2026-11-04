@@ -21,6 +21,6 @@ export MSYS_NO_PATHCONV=1
 image=${TOOLCHAIN_IMAGE:-ghcr.io/defkorns/classicmini-cross-toolchain:v1.3.0}
 gcc13_image=${GCC13_IMAGE:-ghcr.io/defkorns/classicmini-gcc13:gcc13}
 docker run --rm -v "$PWD:/w" -w /w "$image" sh build.sh
-if grep -v '^#' cores.txt | grep -q '| *gcc13 *$'; then
+if grep -v '^#' cores.txt | grep -Eq '\| *gcc13 *(\||$)'; then
   docker run --rm -e TOOLCHAIN=gcc13 -v "$PWD:/w" -w /w "$gcc13_image" sh build.sh
 fi

@@ -116,13 +116,15 @@ For a bug, [open an issue](https://github.com/DefKorns/retroarch-snesce-cores/is
 Add a line to `cores.txt`:
 
 ```text
-name | repository | commit | build dir | extra make args | shortcut | hmod version | title | systems | aliases
+name | repository | commit | build dir | extra make args | shortcut | hmod version | title | systems | aliases | toolchain | image
 ```
 
 - `title` is the name of the core in the hakchi module list, which cuts a name after about 40 characters, counting the prefix "RetroArch Core - " that the Makefile adds; `systems` goes into the readme header as `Emulated System:`, which the client uses to group the list.
 - `aliases` (optional) are more `/bin` names for the same core, for the ones Hakchi gives to the systems it plays by default; only one core should list a name, unless `shortcuts.txt` gives the cores of that name in the order they answer.
 - `hmod version` is the version of the core itself (its libretro `display_version`) with `-beta` while the builds are for testing; a core without a version number uses the date.
 - `build dir` is the folder holding the core's Makefile (`.` for the root).
+- `toolchain` (optional) is `gcc13` for a core that needs the GCC 13 image.
+- `image` is the banner of the readme, `images/<image>.png`, named after the system so the cores of one system share it (`nes`, `snes`, `mega_drive`, `master_system`, `ps1`, `psp`, `n64`); without it the file is `images/<name>.png`.
 - `extra make args` is passed to `make`, for example `LIBS='-lpthread -lm'`.
 - The core's Makefile needs a `classic_armv7_a7` platform.
 - `name` must match the `<name>_libretro.so` the Makefile produces and an info file in [libretro-core-info](https://github.com/libretro/libretro-core-info), or one in `info/`.

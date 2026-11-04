@@ -38,7 +38,7 @@ if [ "$toolchain" = default ]; then
 fi
 mkdir -p "$out/info" "$out/cores" "$src"
 
-grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ _ _ core_toolchain; do
+grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ _ _ core_toolchain _; do
   name=$(echo "$name" | tr -d ' ')
   repo=$(echo "$repo" | tr -d ' ')
   commit=$(echo "$commit" | tr -d ' ')
