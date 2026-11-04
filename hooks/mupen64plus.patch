@@ -1,0 +1,81 @@
+diff --git a/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c b/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c
+index d530f41..d9afc2b 100644
+--- a/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c
++++ b/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c
+@@ -42,6 +42,7 @@ extern int pad_pak_types[4];
+ extern int pad_present[4];
+ extern int astick_deadzone;
+ extern int astick_sensitivity;
++extern int dpad_as_analog;
+ extern int r_cbutton;
+ extern int l_cbutton;
+ extern int d_cbutton;
+@@ -307,6 +308,19 @@ static void inputGetKeys_reuse(int16_t analogX, int16_t analogY, int Control, BU
+    analogX = input_cb(Control, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X);
+    analogY = input_cb(Control, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y);
+ 
++   if (dpad_as_analog)
++   {
++      int dx = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) - input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT);
++      int dy = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN) - input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP);
++
++      if (dx || dy)
++      {
++         double scale = (dx && dy) ? 0.7071 : 1.0;
++         analogX = (int16_t)(dx * 0x7fff * scale);
++         analogY = (int16_t)(dy * 0x7fff * scale);
++      }
++   }
++
+    // Convert cartesian coordinate analog stick to polar coordinates
+    radius = sqrt(analogX * analogX + analogY * analogY);
+    angle = atan2(analogY, analogX);
+@@ -340,6 +354,14 @@ static void inputGetKeys_default( int Control, BUTTONS *Keys )
+    Keys->D_DPAD = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN);
+    Keys->U_DPAD = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP);
+ 
++   if (dpad_as_analog)
++   {
++      Keys->R_DPAD = 0;
++      Keys->L_DPAD = 0;
++      Keys->D_DPAD = 0;
++      Keys->U_DPAD = 0;
++   }
++
+    Keys->START_BUTTON = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START);
+ 
+    Keys->R_TRIG = input_cb(Control, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R);
+diff --git a/libretro/libretro.c b/libretro/libretro.c
+index 1827caf..db90ca6 100644
+--- a/libretro/libretro.c
++++ b/libretro/libretro.c
+@@ -64,6 +64,7 @@ cothread_t retro_thread;
+ 
+ int astick_deadzone;
+ int astick_sensitivity;
++int dpad_as_analog;
+ int r_cbutton;
+ int l_cbutton;
+ int d_cbutton;
+@@ -207,6 +208,8 @@ static void setup_variables(void)
+            "Analog Deadzone (percent); 15|20|25|30|0|5|10"},
+         {"mupen64plus-astick-sensitivity",
+            "Analog Sensitivity (percent); 100|105|110|115|120|125|130|135|140|145|150|50|55|60|65|70|75|80|85|90|95"},
++        {"mupen64plus-dpad-as-analog",
++           "D-Pad as Control Stick; disabled|enabled"},
+         {"mupen64plus-r-cbutton",
+            "Right C Button; C1|C2|C3|C4"},
+         {"mupen64plus-l-cbutton",
+@@ -761,6 +764,12 @@ void update_variables()
+     if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         astick_sensitivity = atoi(var.value);
+ 
++    var.key = "mupen64plus-dpad-as-analog";
++    var.value = NULL;
++
++    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
++        dpad_as_analog = !strcmp(var.value, "enabled");
++
+     var.key = "mupen64plus-CountPerOp";
+     var.value = NULL;
+     if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)

@@ -1,0 +1,28 @@
+# Software Information
+display_name = "Nintendo - Nintendo 64 (Mupen64Plus GLES2)"
+authors = "Hacktarux|Gonetz|Mupen64Plus Team"
+supported_extensions = "n64|v64|z64|bin|u1|ndd"
+corename = "Mupen64Plus GLES2"
+license = "GPLv2"
+permissions = ""
+display_version = "2.5"
+categories = "Emulator"
+
+# Hardware Information
+manufacturer = "Nintendo"
+systemname = "Nintendo 64"
+systemid = "nintendo_64"
+
+# Libretro Features
+supports_no_game = "false"
+database = "Nintendo - Nintendo 64"
+hw_render = "true"
+required_hw_api = "OpenGL ES >= 2.0"
+savestate = "true"
+savestate_features = "serialized"
+input_descriptors = "true"
+core_options = "true"
+needs_fullpath = "false"
+disk_control = "false"
+
+description = "The Mupen64Plus N64 emulator for libretro with the GLideN64 plugin, built for the OpenGL ES 2.0 (Mali) of the NES and SNES Classic. Set D-Pad as Control Stick for a pad without an analog stick."

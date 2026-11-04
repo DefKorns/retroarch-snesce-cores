@@ -1,0 +1,12 @@
+#!/bin/sh
+config="$rootfs/etc/libretro/config"
+kept=$(mktemp -d)
+for file in "Mupen64Plus GLES2/Mupen64Plus GLES2.opt" "remaps/Mupen64Plus GLES2/Mupen64Plus GLES2.rmp"; do
+  [ -f "$config/$file" ] || continue
+  mkdir -p "$kept/$(dirname "$file")"
+  cp "$config/$file" "$kept/$file"
+done
+transfer_default
+cp -rf "$kept/." "$config/"
+rm -rf "$kept"
+return 1
