@@ -1,0 +1,4 @@
+pcsx_rearmed_drc_thread = "disabled"
+pcsx_rearmed_gpu_thread_rendering = "disabled"
+pcsx_rearmed_neon_enhancement_enable = "enabled"
+pcsx_rearmed_spu_thread = "disabled"

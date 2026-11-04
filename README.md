@@ -20,7 +20,7 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | Genesis Plus GX EX | the same, plus Paprium | [DefKorns/Genesis-Plus-GX-EX](https://github.com/DefKorns/Genesis-Plus-GX-EX) (branch `snesce`) | v1.7.4-beta | `/bin/genesis_plus_gx_ex` |
 | Genesis Plus GX Wide | the same, widescreen | [libretro/Genesis-Plus-GX-Wide](https://github.com/libretro/Genesis-Plus-GX-Wide) | v1.7.4-beta | `/bin/genesis_plus_gx_wide` |
 | PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
-| PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed` |
+| PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed`, `/bin/psx` |
 | Mupen64Plus GLES2 | Nintendo 64 | [libretro/mupen64plus-libretro](https://github.com/libretro/mupen64plus-libretro) | 2.5-beta | `/bin/n64`, `/bin/z64`, `/bin/v64` |
 
 The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Drive game, `/bin/m2engage`, runs `/bin/genesis-plus-gx` when the console has no native emulator, and the core picker of a game lists a core as `/bin/<core name>` (`snes05` and `snes10` for the two Snes9x). The Genesis Plus GX hmod also answers to `/bin/sms`, `/bin/md`, `/bin/gg` and `/bin/segacd`, and the PicoDrive one to `/bin/32x`: the names Hakchi gives the Master System, Mega Drive, Game Gear and 32X games, so the ones added before keep starting. The two Snes9x hmods also answer to `/bin/snes9x2005` and `/bin/snes9x2010`, the plain names older hmods gave these cores.
