@@ -75,6 +75,8 @@ Mupen64Plus with the GLideN64 plugin, built for the OpenGL ES 2.0 of the console
 - `D-Pad as Control Stick` (off in the core, on in the installed options) lets a pad without an analog stick play. The Wii Classic Controller in the console port also needs the stick axes of the RetroArch (S)NESCE hmod.
 - Pause points work: leaving a game takes about 2 seconds and resuming about 5.
 
+Thanks to KMFDManic for his help with this core. The defaults (`Count Per Op`, the resolution) and the idea of `D-Pad as Control Stick` come from his LudicrousN64 Xtreme cores.
+
 ## Online updater
 
 Every push to `master` publishes an updater tree to <https://defkorns.github.io/retroarch-snesce-cores/>, in the layout RetroArch's core updater reads:
