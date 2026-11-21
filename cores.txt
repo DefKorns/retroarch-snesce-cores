@@ -13,3 +13,4 @@ picodrive | https://github.com/libretro/picodrive | 1890c2932234c9d30f4cd3851d02
 # ppsspp | https://github.com/hrydgard/ppsspp | 6b9830a030d395b0f08a3e2e9e58ee9328582700 | libretro | TARGET_ARCH=arm HAVE_NEON=1 platform=armv-gles-neon-hardfloat AS=${cross}gcc | ppsspp | 6b9830a-beta | PPSSPP | PSP | | gcc13 | psp
 mupen64plus | https://github.com/libretro/mupen64plus-libretro | ab8134ac90a567581df6de4fc427dd67bfad1b17 | . | | n64 | 2.5-beta | Mupen64Plus GLES2 | Nintendo 64 | z64 v64 | | n64
 snes9x | https://github.com/libretro/snes9x | 921f9f7b83660eb44ad263022a57a4a029057c37 | libretro | LDFLAGS='-static-libstdc++ -static-libgcc' | snes63 | 1.63-beta | Snes9x 1.63 | SNES | | gcc13 | snes
+mame2003_plus | https://github.com/libretro/mame2003-plus-libretro | 2a60eda71ae0fea543a76a43b5d58086a5485256 | . | platform=rpi2 | mame2003_plus | 2a60eda-beta | MAME 2003-Plus | Arcade | | | arcade
