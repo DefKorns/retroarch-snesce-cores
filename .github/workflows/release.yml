@@ -12,7 +12,7 @@ jobs:
       release-name: RetroArch (S)NESCE cores
       make: hmods
       docker: true
-      pre-build: sh docker-build.sh && touch out/.built
+      pre-build: sh docker-build.sh && sudo touch out/.built
     secrets: inherit
     permissions:
       contents: write
