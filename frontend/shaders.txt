@@ -6,6 +6,7 @@ borders/imgborder/imgborder-2160p.glslp
 borders/imgborder/imgborder-2560x1600.glslp
 borders/sgb/sgb.glslp
 borders/sgba/sgba.glslp
+cel/MMJ_Cel_Shader.glslp
 crt/crt-nes-mini.glslp
 crt/crt-potato-cool.glslp
 crt/crt-potato-warm.glslp
@@ -14,10 +15,14 @@ handheld/gb-palette-dmg.glslp
 handheld/gb-palette-light.glslp
 handheld/gb-palette-pocket.glslp
 handheld/gbc-gambatte-color.glslp
+handheld/retro-v2.glslp
 interpolation/bilinear-adjustable.glslp
 interpolation/half_res.glslp
+interpolation/pixellate.glslp
 interpolation/prescale_2x_axis.glslp
+interpolation/quilez.glslp
 interpolation/sharp-bilinear-2x-prescale.glslp
+interpolation/sharp-bilinear.glslp
 misc/bob-deinterlacing.glslp
 misc/cocktail-cab-portrait.glslp
 misc/flicker.glslp
@@ -28,3 +33,4 @@ nearest.glslp
 scanlines/scanline-fract.glslp
 scanlines/scanline.glslp
 scanlines/scanlines-sine-abs.glslp
+xsal/2xsal.glslp

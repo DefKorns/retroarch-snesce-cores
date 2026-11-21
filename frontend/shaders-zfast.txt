@@ -1,0 +1,6 @@
+zfast_crt_curve.glslp
+zfast_crt_curve_vertical.glslp
+zfast_crt_standard.glslp
+zfast_crt_standard_vertical.glslp
+zfast_lcd_standard.glslp
+snes_scanline.glslp

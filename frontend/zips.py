@@ -112,7 +112,7 @@ def assets(src, systems, aliases):
     return entries
 
 
-def shaders(src):
+def collectShaders(src, presets):
     need = set()
     seen = set()
 
@@ -136,10 +136,24 @@ def shaders(src):
             if texture.strip() in keys:
                 need.add(resolve(path, keys[texture.strip()]))
 
-    for path in read_list("shaders.txt") + ["bilinear.glslp", "nearest.glslp"]:
-        preset(path)
-    need.add("stock.glsl")
+    for path in presets:
+        if path.endswith(".glsl"):
+            need.add(path)
+        else:
+            preset(path)
     return {path: os.path.join(src, path) for path in need}
+
+
+def shaders(root):
+    entries = collectShaders(os.path.join(root, "shaders"), read_list("shaders.txt") + ["bilinear.glslp", "nearest.glslp", "stock.glsl"])
+    for name in ("shaders-legacy", "shaders-zfast"):
+        extra = collectShaders(os.path.join(root, name), read_list(name + ".txt"))
+        clash = [k for k in extra if k in entries]
+        if clash:
+            sys.exit(name + " overlaps the glsl-shaders zip entries: " + ", ".join(clash))
+        entries.update(extra)
+    entries.update(walk(os.path.join(HERE, "extra-shaders")))
+    return entries
 
 
 def cheats(src, systems, aliases):
@@ -188,7 +202,7 @@ def main():
     kept = assets(os.path.join(src, "assets"), systems, aliases)
     write_zip(os.path.join(out, "assets.zip"), kept)
     write_tar_gz(os.path.join(out, "assets.tar.gz"), kept)
-    write_zip(os.path.join(out, "shaders_glsl.zip"), shaders(os.path.join(src, "shaders")))
+    write_zip(os.path.join(out, "shaders_glsl.zip"), shaders(src))
     write_zip(os.path.join(out, "cheats.zip"), cheats(os.path.join(src, "database"), systems, aliases))
     write_zip(os.path.join(out, "info.zip"), info(src))
     write_zip(os.path.join(out, "database-rdb.zip"), databases(systems))

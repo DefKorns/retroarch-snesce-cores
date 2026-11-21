@@ -92,14 +92,14 @@ The online updater entries that read the assets URL download these zips from `fr
 | Entry | Zip | Contents |
 | --- | --- | --- |
 | Update Assets | `assets.zip` | Ozone, the XMB `monochrome` theme and the sounds, with only the system icons of the supported cores |
-| Update GLSL Shaders | `shaders_glsl.zip` | The presets that take 10 ms or less per frame at 1280x720 on the Mali-400 |
+| Update GLSL Shaders | `shaders_glsl.zip` | The presets that take 10 ms or less per frame at 1280x720 on the Mali-400, the shaders KMFD's RetroArch also ships that exist upstream, `5xbr-retro`, `bead` and `blinky` from the old gizmo98/common-shaders, and the zfast shaders of Greg Hogan |
 | Update Cheats | `cheats.zip` | The cheat databases of the supported systems, without Nintendo DS |
 | Update Core Info Files | `info.zip` | The info files of these cores |
 | Update Databases | `database-rdb.zip` | The databases of the supported systems |
 
 The other entries (overlays, controller profiles, thumbnails) have no zip here and fail.
 
-`sh frontend/build.sh` builds them, from the upstream commits pinned in `frontend/sources.txt`, and writes `assets.tar.gz` with the same files as `assets.zip`, and `assets.tar.sha256` with the checksum of its tar, for the build of the RetroArch (S)NESCE hmod. `systems.txt` lists the supported systems, `aliases.txt` the names some cores use for a system that has another name upstream (they get a copy of its icon and cheats), and `shaders.txt` the presets that make the cut. The database zip is the buildbot's, filtered, so it is not pinned to a commit.
+`sh frontend/build.sh` builds them, from the upstream commits pinned in `frontend/sources.txt`, and writes `assets.tar.gz` with the same files as `assets.zip`, and `assets.tar.sha256` with the checksum of its tar, for the build of the RetroArch (S)NESCE hmod. `systems.txt` lists the supported systems, `aliases.txt` the names some cores use for a system that has another name upstream (they get a copy of its icon and cheats), and `shaders.txt` the presets that make the cut. `shaders-legacy.txt` lists the files taken from gizmo98/common-shaders, which no longer exist in the glsl-shaders upstream. `shaders-zfast.txt` lists the zfast and scanline presets taken from the `zfast_shaders` branch of ghogan42/common-shaders (Greg Hogan, SoltanGris42). `extra-shaders` holds what no upstream carries: the `zfast_crt_720p_SNES` and `zfast_lcd_720p` shaders from his Zfast_Shaders_Jan_07_2018 pack and a preset for `blinky`. `zfast_crt_standard` and `zfast_crt_720p_SNES` measured about 15 ms and 14.5 ms per pass on the Mali-400. The database zip is the buildbot's, filtered, so it is not pinned to a commit.
 
 ## Build
 
