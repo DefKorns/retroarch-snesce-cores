@@ -23,6 +23,8 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
 | PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed`, `/bin/psx` |
 | Mupen64Plus GLES2 | Nintendo 64 | [libretro/mupen64plus-libretro](https://github.com/libretro/mupen64plus-libretro) | 2.5-beta | `/bin/n64`, `/bin/z64`, `/bin/v64` |
+| MAME 2003-Plus | Arcade | [libretro/mame2003-plus-libretro](https://github.com/libretro/mame2003-plus-libretro) | 2a60eda-beta | `/bin/mame2003_plus` |
+| FinalBurn Neo | Arcade | [libretro/FBNeo](https://github.com/libretro/FBNeo) | v1.0.0.03-beta | `/bin/fbneo` |
 
 The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Drive game, `/bin/m2engage`, runs `/bin/genesis-plus-gx` when the console has no native emulator, and the core picker of a game lists a core as `/bin/<core name>` (`snes05` and `snes10` for the two Snes9x). The Genesis Plus GX hmod also answers to `/bin/sms`, `/bin/md`, `/bin/gg` and `/bin/segacd`, and the PicoDrive one to `/bin/32x`: the names Hakchi gives the Master System, Mega Drive, Game Gear and 32X games, so the ones added before keep starting. The two Snes9x hmods also answer to `/bin/snes9x2005` and `/bin/snes9x2010`, the plain names older hmods gave these cores.
 
@@ -34,7 +36,7 @@ Snes9x 1.63 is the newest of the three and the heaviest. On a SNES Classic, with
 
 ## BIOS
 
-Only the Famicom Disk System (`.fds`) games, Sega CD and PlayStation need a BIOS. Put it in `/etc/libretro/system`.
+Only the Famicom Disk System (`.fds`) games, Sega CD, PlayStation and some arcade boards need a BIOS. Put it in `/etc/libretro/system`, except where the table says otherwise.
 
 | Core | BIOS | Required | Notes |
 | --- | --- | --- | --- |
@@ -48,6 +50,8 @@ Only the Famicom Disk System (`.fds`) games, Sega CD and PlayStation need a BIOS
 | Genesis Plus GX, EX and Wide | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | `bios_MD.bin`, `bios_E.sms`, `bios_U.sms`, `bios_J.sms` and `bios.gg` are optional |
 | PicoDrive | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | same names as Genesis Plus GX |
 | PCSX ReARMed | `scph5500.bin`, `scph5501.bin`, `scph5502.bin` | recommended | JP, US and EU; without one the core falls back to a software BIOS with lower compatibility |
+| MAME 2003-Plus | none for most games | | Neo Geo and other boards use BIOS files; unless the romset is full non-merged, they must be inside the ROM folder |
+| FinalBurn Neo | `neogeo.zip` | for Neo Geo | goes in `/etc/libretro/system/fbneo`, like `neocdz.zip`, `pgm.zip` and `skns.zip` for their boards |
 
 The RetroArch (S)NESCE hmod copies the console's own `fds_bios.bin` to `disksys.rom` when it installs, on consoles that have it. Elsewhere, add the file yourself; this repository does not ship any BIOS.
 
@@ -82,6 +86,15 @@ Mupen64Plus with the GLideN64 plugin, built for the OpenGL ES 2.0 of the console
 - Pause points work: leaving a game takes about 2 seconds and resuming about 5.
 
 Thanks to KMFDManic for his help with this core. The defaults (`Count Per Op`, the resolution) and the idea of `D-Pad as Control Stick` come from his LudicrousN64 Xtreme cores.
+
+## Arcade
+
+Two arcade cores, both built from the upstream source. No ROMs or BIOS are included.
+
+- MAME 2003-Plus uses the MAME 2003-Plus romsets. Its hmod installs the core options with `Skip Disclaimer` and `Skip Warnings` on, and the `hiscore.dat` of the core's repository; an install over your own options keeps them.
+- FinalBurn Neo uses the romsets of FinalBurn Neo 1.0.0.3. I played two CPS2 games, Dungeons & Dragons: Tower of Doom and Shadow over Mystara, at full speed. Mortal Kombat (Midway T-Unit) ran at about 39 FPS of the 54.7 it needs. Its `Cyclone` option (the 68000 in ARM assembly) is off; with it on a CPS2 game used about 12% less CPU, but I did not check the sound or the savestates with it on.
+- Mortal Kombat crackles with MAME 2003-Plus. The KMFD core does the same, also with the RetroArch settings of the KMFD hmod, and a lower `CPU Clock Scale` did not fix it.
+- The FinalBurn Neo core is large, about 59 MB (18 MB in the zip), and uses about a third more CPU than the 2022 FB Neo Xtreme of KMFDManic in the same CPS2 game.
 
 ## Online updater
 
