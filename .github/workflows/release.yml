@@ -7,11 +7,12 @@ on:
 jobs:
   hmods:
     # Keep in sync with the vendor/hmod-build submodule tag.
-    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.8.1
+    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.9.0
     with:
       release-name: RetroArch (S)NESCE cores
       make: hmods
       docker: true
+      pre-build: sh docker-build.sh && touch out/.built
     secrets: inherit
     permissions:
       contents: write
