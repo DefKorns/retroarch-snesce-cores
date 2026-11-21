@@ -1,0 +1,12 @@
+#!/bin/sh
+config="$rootfs/etc/libretro/config"
+kept=$(mktemp -d)
+file="MAME 2003-Plus/MAME 2003-Plus.opt"
+if [ -f "$config/$file" ]; then
+  mkdir -p "$kept/$(dirname "$file")"
+  cp "$config/$file" "$kept/$file"
+fi
+transfer_default
+cp -rf "$kept/." "$config/"
+rm -rf "$kept"
+return 1
