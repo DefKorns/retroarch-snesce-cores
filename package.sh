@@ -48,6 +48,8 @@ shortcutScript() {
 
 sh "$root/shortcuts.sh" "$root/out/shortcuts.list"
 
+bundled=" $(grep -v '^#' bundles.txt | cut -d'|' -f5 | tr '\n' ' ') "
+
 grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version title systems aliases _ image; do
   name=$(echo "$name" | tr -d ' ')
   shortcut=$(echo "$shortcut" | tr -d ' ')
@@ -92,7 +94,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   echo "$authors|Libretro" > "$mods/$name.creator"
   echo "$systems" > "$mods/$name.systems"
   echo "$version" > "$mods/$name.version"
-  echo "$name" >> "$root/out/mods.list"
+  case "$bundled" in *" $name "*) ;; *) echo "$name" >> "$root/out/mods.list" ;; esac
 done
 
 grep -v '^#' bundles.txt | while IFS='|' read -r name title systems version cores; do
@@ -109,6 +111,7 @@ grep -v '^#' bundles.txt | while IFS='|' read -r name title systems version core
     cp -r "$mods/$core/." "$dir/"
     last_core=$core
   done
+  [ ! -d "$root/mods/$name" ] || cp -r "$root/mods/$name/." "$dir/"
   rm -f "$dir/readme.md"
   image=$(awk -F'|' -v core="$last_core" '{ gsub(/ /, "", $1); gsub(/ /, "", $12); if ($1 == core) print $12 }' cores.txt)
   {

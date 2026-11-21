@@ -28,7 +28,7 @@ The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Driv
 
 Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
 
-The Snes9x bundle (`retroarch_snesce_core_snes9x_bundle`) carries Snes9x 2005, 2010 and 1.63 in one hmod, each in its own core file. It holds the same files as the three single-core hmods, so install either the bundle or the single ones, not both. `bundles.txt` lists what goes in it.
+The Snes9x bundle (`retroarch_snesce_core_snes9x_bundle`) carries Snes9x 2005, 2010 and 1.63 in one hmod, each in its own core file. It replaces the single-core Snes9x hmods, which are no longer published: its install script first uninstalls `retroarch_snesce_core_snes9x2005`, `retroarch_snesce_core_snes9x2010` and `retroarch_snesce_core_snes9x` if they are installed. `bundles.txt` lists what goes in it.
 
 Snes9x 1.63 is the newest of the three and the heaviest. On a SNES Classic, with no audio or video and no frame limit, I measured about 95 fps in Adventures of Batman & Robin, but only about 51 fps in Kirby Super Star and 48 fps in Super Mario RPG (both SA-1), below the 60 fps a game needs. Snes9x 2010 ran those two at 63 and 67 fps and Snes9x 2005 at 90 and 112 fps. Use 2010 or 2005 for SA-1 games.
 
