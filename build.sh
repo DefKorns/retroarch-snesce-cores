@@ -63,8 +63,13 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ 
     cd "$src/$name/$dir"
     # shellcheck disable=SC1090
     [ ! -f "$root/hooks/$name.env" ] || . "$root/hooks/$name.env"
-    eval "make -j$(nproc) platform=classic_armv7_a7 \
-      CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra"
+    if [ -f "$root/hooks/$name.build" ]; then
+      export cross name
+      sh "$root/hooks/$name.build"
+    else
+      eval "make -j$(nproc) platform=classic_armv7_a7 \
+        CC=${cross}gcc CXX=${cross}g++ AR=${cross}ar $extra"
+    fi
   )
   so="$src/$name/$dir/${name}_libretro.so"
   "${cross}strip" "$so"

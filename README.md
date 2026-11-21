@@ -23,6 +23,7 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | PicoDrive | Mega Drive, Sega CD, 32X, Master System | [libretro/picodrive](https://github.com/libretro/picodrive) | 2.05-beta | `/bin/picodrive` |
 | PCSX ReARMed | PlayStation | [libretro/pcsx_rearmed](https://github.com/libretro/pcsx_rearmed) | r26-beta | `/bin/pcsx_rearmed`, `/bin/psx` |
 | Mupen64Plus GLES2 | Nintendo 64 | [libretro/mupen64plus-libretro](https://github.com/libretro/mupen64plus-libretro) | 2.5-beta | `/bin/n64`, `/bin/z64`, `/bin/v64` |
+| mGBA | Game Boy Advance, Game Boy, Game Boy Color | [libretro/mgba](https://github.com/libretro/mgba) | 7a12d6d-beta | `/bin/mgba`, `/bin/gba` |
 | MAME 2003-Plus | Arcade | [libretro/mame2003-plus-libretro](https://github.com/libretro/mame2003-plus-libretro) | 2a60eda-beta | `/bin/mame2003_plus` |
 | FinalBurn Neo | Arcade | [libretro/FBNeo](https://github.com/libretro/FBNeo) | v1.0.0.03-beta | `/bin/fbneo` |
 
@@ -50,6 +51,7 @@ Only the Famicom Disk System (`.fds`) games, Sega CD, PlayStation and some arcad
 | Genesis Plus GX, EX and Wide | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | `bios_MD.bin`, `bios_E.sms`, `bios_U.sms`, `bios_J.sms` and `bios.gg` are optional |
 | PicoDrive | `bios_CD_E.bin`, `bios_CD_U.bin`, `bios_CD_J.bin` | for Sega CD | same names as Genesis Plus GX |
 | PCSX ReARMed | `scph5500.bin`, `scph5501.bin`, `scph5502.bin` | recommended | JP, US and EU; without one the core falls back to a software BIOS with lower compatibility |
+| mGBA | `gba_bios.bin`, `gb_bios.bin`, `gbc_bios.bin`, `sgb_bios.bin` | no | the core has a built-in GBA BIOS; the real one (md5 `a860e8c0b6d573d191e4ec7db1b1e4f6`) is used if present |
 | MAME 2003-Plus | none for most games | | Neo Geo and other boards use BIOS files; unless the romset is full non-merged, they must be inside the ROM folder |
 | FinalBurn Neo | `neogeo.zip` | for Neo Geo | goes in `/etc/libretro/system/fbneo`, like `neocdz.zip`, `pgm.zip` and `skns.zip` for their boards |
 
@@ -86,6 +88,13 @@ Mupen64Plus with the GLideN64 plugin, built for the OpenGL ES 2.0 of the console
 - Pause points work: leaving a game takes about 2 seconds and resuming about 5.
 
 Thanks to KMFDManic for his help with this core. The defaults (`Count Per Op`, the resolution) and the idea of `D-Pad as Control Stick` come from his LudicrousN64 Xtreme cores.
+
+## Game Boy Advance
+
+mGBA, built with GCC 13 from the libretro mirror. It runs Mother 3 at 60 FPS on a SNES Classic.
+
+- The in-game saves of Donkey Kong Country (EEPROM) and Mother 3 (Flash, with two slots) survive leaving the game and a cut of the power, in a game launched from the Hakchi menu or ClassicStation: a RetroArch (S)NESCE hmod from 2026-11-21 on copies the save to the game's save folder as it changes.
+- The mGBA of the KMFD hmod has the same core name and the same `/bin/mgba` and `/bin/gba`: with both installed they share one options file and the shortcuts belong to the last one installed.
 
 ## Arcade
 

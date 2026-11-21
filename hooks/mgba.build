@@ -1,0 +1,32 @@
+#!/bin/sh
+#  Copyright (C) 2026 DefKorns (https://defkorns.github.io/LICENSE)
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+set -eu
+
+command -v cmake >/dev/null || { apt-get update -qq && apt-get install -y -qq cmake; }
+mkdir -p build_arm
+cd build_arm
+cmake .. \
+  -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm \
+  -DCMAKE_C_COMPILER="${cross}gcc" -DCMAKE_CXX_COMPILER="${cross}g++" \
+  -DCMAKE_C_FLAGS='-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard' \
+  -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBRETRO=ON -DSKIP_LIBRARY=ON \
+  -DBUILD_QT=OFF -DBUILD_SDL=OFF -DBUILD_GL=OFF -DBUILD_GLES2=OFF -DBUILD_GLES3=OFF \
+  -DUSE_LZMA=OFF -DUSE_LIBZIP=OFF -DUSE_ZLIB=OFF -DHAVE_CRC32=OFF -DUSE_PNG=OFF -DUSE_FFMPEG=OFF \
+  -DUSE_SQLITE3=OFF -DUSE_EDITLINE=OFF -DUSE_DISCORD_RPC=OFF -DENABLE_SCRIPTING=OFF
+make -j"$(nproc)"
+cd ..
+cp "$(find build_arm -name '*mgba_libretro.so' | head -n 1)" "${name}_libretro.so"
