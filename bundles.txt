@@ -1,0 +1,2 @@
+# name | title | systems | version | cores in the hmod
+snes9x_bundle | Snes9x (2005, 2010, 1.63) | SNES | 1.0-beta | snes9x2005 snes9x2010 snes9x

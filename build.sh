@@ -53,7 +53,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ 
   git -C "$src/$name" checkout -q FETCH_HEAD
   if [ -f "$root/hooks/$name.submodules" ]; then
     # shellcheck disable=SC2046
-    git -C "$src/$name" submodule update -q --init -- $(cat "$root/hooks/$name.submodules")
+    [ ! -s "$root/hooks/$name.submodules" ] || git -C "$src/$name" submodule update -q --init -- $(cat "$root/hooks/$name.submodules")
   else
     git -C "$src/$name" submodule update -q --init
   fi

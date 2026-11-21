@@ -12,6 +12,7 @@ Libretro cores built for the NES and SNES Classic (ARMv7 Cortex-A7) for the [Ret
 | --- | --- | --- | --- | --- |
 | Snes9x 2005 | SNES | [libretro/snes9x2005](https://github.com/libretro/snes9x2005) | 1.36-beta | `/bin/snes05` |
 | Snes9x 2010 | SNES | [libretro/snes9x2010](https://github.com/libretro/snes9x2010) | 1.52.4-beta | `/bin/snes10` |
+| Snes9x 1.63 | SNES | [libretro/snes9x](https://github.com/libretro/snes9x) (tag 1.63) | 1.63-beta | `/bin/snes63` |
 | FCEUmm | NES, FDS | [libretro/libretro-fceumm](https://github.com/libretro/libretro-fceumm) | 2026.10.30-beta | `/bin/fceumm` |
 | Nestopia | NES, FDS | [libretro/nestopia](https://github.com/libretro/nestopia) | 2.0.0-beta | `/bin/nestopia` |
 | QuickNES | NES | [libretro/QuickNES_Core](https://github.com/libretro/QuickNES_Core) | 1.0-WIP-beta | `/bin/quicknes` |
@@ -27,6 +28,10 @@ The shortcuts are the names Hakchi looks for: the default wrapper of a Mega Driv
 
 Each hmod has the version of its libretro core, with `-beta` while the builds are for testing. FCEUmm has no version number (it reports "SVN"), so it uses the date of the build. The exact commit of each core is in `cores.txt`. In the tests I ran on a SNES Classic, Snes9x 2005 and 2010 used as much CPU as the `km_*` builds of the same cores.
 
+The Snes9x bundle (`retroarch_snesce_core_snes9x_bundle`) carries Snes9x 2005, 2010 and 1.63 in one hmod, each in its own core file. It holds the same files as the three single-core hmods, so install either the bundle or the single ones, not both. `bundles.txt` lists what goes in it.
+
+Snes9x 1.63 is the newest of the three and the heaviest. On a SNES Classic, with no audio or video and no frame limit, I measured about 95 fps in Adventures of Batman & Robin, but only about 51 fps in Kirby Super Star and 48 fps in Super Mario RPG (both SA-1), below the 60 fps a game needs. Snes9x 2010 ran those two at 63 and 67 fps and Snes9x 2005 at 90 and 112 fps. Use 2010 or 2005 for SA-1 games.
+
 ## BIOS
 
 Only the Famicom Disk System (`.fds`) games, Sega CD and PlayStation need a BIOS. Put it in `/etc/libretro/system`.
@@ -35,6 +40,7 @@ Only the Famicom Disk System (`.fds`) games, Sega CD and PlayStation need a BIOS
 | --- | --- | --- | --- |
 | Snes9x 2005 | none | | |
 | Snes9x 2010 | none | | |
+| Snes9x 1.63 | `BS-X.bin`, `STBIOS.bin` | no | for BS-X Satellaview and Sufami Turbo |
 | FCEUmm | `disksys.rom` | for `.fds` | md5 `ca30b50f880eb660a320674ed365ef7a`. `nes.pal` (custom palette) and `gamegenie.nes` are optional |
 | Nestopia | `disksys.rom` | for `.fds` | same file as FCEUmm; L switches the disk side |
 | QuickNES | none | | plays `.nes` only, no FDS |

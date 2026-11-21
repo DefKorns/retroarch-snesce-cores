@@ -94,3 +94,36 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   echo "$version" > "$mods/$name.version"
   echo "$name" >> "$root/out/mods.list"
 done
+
+grep -v '^#' bundles.txt | while IFS='|' read -r name title systems version cores; do
+  name=$(echo "$name" | tr -d ' ')
+  title=$(echo "$title" | sed 's/^ *//;s/ *$//')
+  systems=$(echo "$systems" | sed 's/^ *//;s/ *$//')
+  version=$(echo "$version" | tr -d ' ')
+  [ -n "$name" ] || continue
+
+  dir="$mods/$name"
+  mkdir -p "$dir"
+  last_core=
+  for core in $cores; do
+    cp -r "$mods/$core/." "$dir/"
+    last_core=$core
+  done
+  rm -f "$dir/readme.md"
+  image=$(awk -F'|' -v core="$last_core" '{ gsub(/ /, "", $1); gsub(/ /, "", $12); if ($1 == core) print $12 }' cores.txt)
+  {
+    echo "![$title](https://raw.githubusercontent.com/DefKorns/retroarch-snesce-cores/master/images/${image:-$last_core}.png)"
+    echo
+    for core in $cores; do
+      shortcut=$(awk -F'|' -v core="$core" '{ gsub(/ /, "", $1); gsub(/ /, "", $6); if ($1 == core) print $6 }' cores.txt)
+      echo "- $(cat "$mods/$core.title"): \`/bin/$shortcut\`"
+    done
+    echo
+    echo "The $title libretro cores for the RetroArch (S)NESCE hmod, which has to be installed too. Pick the core of a game with \`--retroarch --core <core>\`, or call its shortcut."
+  } > "$dir/readme.md"
+  echo "$title" > "$mods/$name.title"
+  cp "$mods/$last_core.creator" "$mods/$name.creator"
+  echo "$systems" > "$mods/$name.systems"
+  echo "$version" > "$mods/$name.version"
+  echo "$name" >> "$root/out/mods.list"
+done
