@@ -5,14 +5,44 @@ on:
     tags: ['v*']
 
 jobs:
+  cores-default:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: sh docker-build.sh default
+      - uses: actions/upload-artifact@v7
+        with:
+          name: cores-default
+          path: |
+            out/cores
+            out/info
+            out/assets
+          if-no-files-found: error
+
+  cores-gcc13:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: sh docker-build.sh gcc13
+      - uses: actions/upload-artifact@v7
+        with:
+          name: cores-gcc13
+          path: |
+            out/cores
+            out/info
+            out/assets
+          if-no-files-found: error
+
   hmods:
+    needs: [cores-default, cores-gcc13]
     # Keep in sync with the vendor/hmod-build submodule tag.
-    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.9.0
+    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.10.0
     with:
       release-name: RetroArch (S)NESCE cores
       make: hmods
       docker: true
-      pre-build: sh docker-build.sh && sudo touch out/.built
+      artifacts: cores-*
+      pre-build: touch out/.built
     secrets: inherit
     permissions:
       contents: write
