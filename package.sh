@@ -46,6 +46,17 @@ shortcutScript() {
   echo 'exec retroarch-clover "$core" "$@"'
 }
 
+packCore() {
+  local source_file="$1" target_dir="$2" core_size block_size
+  core_size=$(wc -c < "$source_file")
+  if [ "$core_size" -lt 3000000 ]; then
+    cp "$source_file" "$target_dir/"
+    return
+  fi
+  block_size=$(( (core_size / 4 + 4095) / 4096 * 4096 ))
+  xz -9e -T1 --check=crc64 --block-size="$block_size" -c "$source_file" > "$target_dir/$(basename "$source_file")"
+}
+
 sh "$root/shortcuts.sh" "$root/out/shortcuts.list"
 
 bundled=" $(grep -v '^#' bundles.txt | cut -d'|' -f5 | tr '\n' ' ') "
@@ -63,7 +74,7 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
 
   dir="$mods/$name"
   mkdir -p "$dir/bin" "$dir/etc/libretro/core" "$dir/etc/libretro/info"
-  cp "$root/out/cores/${name}_libretro.so" "$dir/etc/libretro/core/"
+  packCore "$root/out/cores/${name}_libretro.so" "$dir/etc/libretro/core"
   cp "$root/out/info/${name}_libretro.info" "$dir/etc/libretro/info/"
   [ ! -d "$root/mods/$name" ] || cp -r "$root/mods/$name/." "$dir/"
   printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
