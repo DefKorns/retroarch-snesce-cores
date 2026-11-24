@@ -33,6 +33,8 @@ Each hmod has the version of its libretro core, with `-beta` while the builds ar
 
 The Snes9x bundle (`retroarch_snesce_core_snes9x_bundle`) carries Snes9x 2005, 2010 and 1.63 in one hmod, each in its own core file. It replaces the single-core Snes9x hmods, which are no longer published: its install script first uninstalls `retroarch_snesce_core_snes9x2005`, `retroarch_snesce_core_snes9x2010` and `retroarch_snesce_core_snes9x` if they are installed. `bundles.txt` lists what goes in it.
 
+The Genesis Plus GX bundle (`retroarch_snesce_core_genesis_plus_gx_bundle`) does the same for Genesis Plus GX, EX and Wide: one hmod, three core files, each with its own settings folder, and the install script first uninstalls the three single-core hmods. It keeps `/bin/genesis-plus-gx`, `/bin/genesis_plus_gx_ex`, `/bin/genesis_plus_gx_wide` and the `/bin/sms`, `/bin/md`, `/bin/gg` and `/bin/segacd` names.
+
 Snes9x 1.63 is the newest of the three and the heaviest. On a SNES Classic, with no audio or video and no frame limit, I measured about 95 fps in Adventures of Batman & Robin, but only about 51 fps in Kirby Super Star and 48 fps in Super Mario RPG (both SA-1), below the 60 fps a game needs. Snes9x 2010 ran those two at 63 and 67 fps and Snes9x 2005 at 90 and 112 fps. Use 2010 or 2005 for SA-1 games.
 
 ## BIOS

@@ -14,14 +14,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-config="$rootfs/etc/libretro/config"
-kept=$(mktemp -d)
-file="Genesis Plus GX/Paprium.bin.cfg"
-if [ -f "$config/$file" ]; then
-  mkdir -p "$kept/$(dirname "$file")"
-  cp "$config/$file" "$kept/$file"
-fi
+for old_id in retroarch_snesce_core_genesis_plus_gx retroarch_snesce_core_genesis_plus_gx_ex retroarch_snesce_core_genesis_plus_gx_wide; do
+  pack_uninstall "$old_id"
+done
 transfer_default
-cp -rf "$kept/." "$config/"
-rm -rf "$kept"
 return 1

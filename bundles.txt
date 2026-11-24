@@ -1,2 +1,3 @@
 # name | title | systems | version | cores in the hmod
 snes9x_bundle | Snes9x (2005, 2010, 1.63) | SNES | 1.0-beta | snes9x2005 snes9x2010 snes9x
+genesis_plus_gx_bundle | Genesis Plus GX (GX, EX, Wide) | Mega Drive, Sega CD, SMS, Game Gear | v1.7.4-beta | genesis_plus_gx genesis_plus_gx_ex genesis_plus_gx_wide
