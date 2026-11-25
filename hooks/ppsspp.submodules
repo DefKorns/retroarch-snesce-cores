@@ -12,4 +12,5 @@ ext/rapidjson
 ext/rcheevos
 ext/SPIRV-Cross
 ext/zstd
+ffmpeg
 libretro/libretro-common

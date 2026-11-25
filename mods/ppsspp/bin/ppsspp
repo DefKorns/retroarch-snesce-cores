@@ -1,0 +1,30 @@
+#!/bin/sh
+#  Copyright (C) 2026 DefKorns (https://defkorns.github.io/LICENSE)
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+save_path=/var/saves
+[ -d "$save_path" ] || save_path=/var/lib/clover/profiles/0
+config_path=/etc/libretro/config/PPSSPP
+
+ensureKey() {
+  grep -q "^$2 " "$1" 2> /dev/null || printf '%s = "%s"\n' "$2" "$3" >> "$1"
+}
+
+mkdir -p "$save_path/PSP" "$config_path" /var/cache/retroarch
+ln -nsf -T "$save_path/PSP" /var/cache/retroarch/PSP
+ensureKey "$config_path/PPSSPP.cfg" aspect_ratio_index 22
+ensureKey "$config_path/PPSSPP.opt" ppsspp_lower_resolution_for_effects Balanced
+ensureKey "$config_path/PPSSPP.opt" ppsspp_skip_gpu_readbacks enabled
+exec retroarch-clover ppsspp "$@" --ra-nosaves

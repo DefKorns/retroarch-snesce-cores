@@ -77,9 +77,15 @@ grep -v '^#' cores.txt | while IFS='|' read -r name _ _ _ _ shortcut version tit
   packCore "$root/out/cores/${name}_libretro.so" "$dir/etc/libretro/core"
   cp "$root/out/info/${name}_libretro.info" "$dir/etc/libretro/info/"
   [ ! -d "$root/mods/$name" ] || cp -r "$root/mods/$name/." "$dir/"
-  printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
+  if [ -f "$root/hooks/$name.assets" ]; then
+    system_dir="$dir/etc/libretro/system/$(cat "$root/hooks/$name.assets")"
+    mkdir -p "$system_dir"
+    cp -r "$root/out/assets/$name/." "$system_dir/"
+  fi
+  [ -f "$dir/bin/$shortcut" ] || printf '#!/bin/sh\nexec retroarch-clover %s "$@"\n' "$name" > "$dir/bin/$shortcut"
   # the names Hakchi gives the systems a core plays by default
   for alias in $aliases; do
+    [ -f "$dir/bin/$alias" ] && continue
     # shellcheck disable=SC2046
     shortcutScript $(sed -n "s/^$alias //p" "$root/out/shortcuts.list") > "$dir/bin/$alias"
   done

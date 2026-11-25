@@ -75,6 +75,14 @@ grep -v '^#' cores.txt | while IFS='|' read -r name repo commit dir extra _ _ _ 
   "${cross}strip" "$so"
   cp "$so" "$out/cores/"
 
+  if [ -f "$root/hooks/$name.assets" ]; then
+    mkdir -p "$out/assets/$name"
+    cp -r "$src/$name/assets/." "$out/assets/$name/"
+    rm -rf "$out/assets/$name/debugger" "$out/assets/$name/mime" "$out/assets/$name/upload"
+    # hmod-check rejects the CRLF that upstream ships in some text assets
+    find "$out/assets/$name" -type f -exec sh -c 'for f; do ! grep -qI . "$f" || sed -i "s/\r\$//" "$f"; done' sh {} +
+  fi
+
   perl -MIO::Compress::Zip=zip,'$ZipError' -e 'zip($ARGV[0] => $ARGV[1], Name => $ARGV[2]) or die $ZipError' \
     "$so" "$out/${name}_libretro.so.zip" "${name}_libretro.so"
   crc=$(gzip -c "$so" | tail -c 8 | od -An -tx4 -N4 | tr -d ' ')
