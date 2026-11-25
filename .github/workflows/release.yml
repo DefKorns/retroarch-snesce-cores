@@ -36,7 +36,7 @@ jobs:
   hmods:
     needs: [cores-default, cores-gcc13]
     # Keep in sync with the vendor/hmod-build submodule tag.
-    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.10.0
+    uses: DefKorns/hmod-build/.github/workflows/hmod.yml@v1.10.1
     with:
       release-name: RetroArch (S)NESCE cores
       make: hmods
